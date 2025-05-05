@@ -1,8 +1,8 @@
-import './index.css';  // This imports Tailwind styles
-import './App.css';     // This imports your custom styles
+  // This imports Tailwind styles
+//import './App.css';     // This imports your custom styles
 
 import React from 'react';
-
+import './index.css';
 import { Toaster } from "@/components/ui/toaster"; // Check if Toaster and Sonner are different components
 import { Toaster as Sonner } from "@/components/ui/sonner"; // Maybe remove if redundant
 import { TooltipProvider } from "@/components/ui/tooltip";
