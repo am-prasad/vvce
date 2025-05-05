@@ -10,6 +10,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NotFound from "./pages/NotFound";
 
+
 import AppLayout from "./components/Layouts/AppLayout";
 import Dashboard from "./pages/Dashboard";
 import AmbulancesPage from "./pages/AmbulancesPage";
@@ -18,7 +19,7 @@ import RouteOptimizationPage from "./pages/RouteOptimizationPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import SettingsPage from "./pages/SettingsPage";
 import VehicleRegistrationForm from '@/components/ui/VehicleRegistrationForm';
-
+import TrafficSignalRegistrationForm from '@/components/ui/TrafficSignalRegistrationForm';
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -37,6 +38,8 @@ const App = () => (
             <Route path="/vehicle-registration" element={<VehicleRegistrationForm />} />
             
             <Route path="/traffic-signals" element={<TrafficSignalsPage />} />
+            <Route path="/signal-registration" element={<TrafficSignalRegistrationForm />} />
+            
             <Route path="/route-optimization" element={<RouteOptimizationPage />} />
             <Route path="/analytics" element={<AnalyticsPage />} />
             <Route path="/settings" element={<SettingsPage />} />
