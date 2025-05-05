@@ -1,8 +1,11 @@
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Missing import
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import {
@@ -15,8 +18,15 @@ import {
 } from '@/components/ui/table';
 import { Ambulance, Clock, FilterX, MapPin, Search } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+//import AmbulancesPage from './pages/AmbulancesPage';  // Make sure this path is correct
 
 const AmbulancesPage = () => {
+  const navigate = useNavigate();
+  const handleRegisterClick = () => {
+    console.log("Navigating to vehicle registration page...");
+    // Navigate to the 'vehicle-registration' page when button is clicked
+    navigate('/vehicle-registration');
+  };
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
@@ -42,7 +52,7 @@ const AmbulancesPage = () => {
           <h1 className="text-2xl font-bold">Ambulance Fleet</h1>
           <p className="text-muted-foreground">Monitor and manage the emergency vehicle fleet</p>
         </div>
-        <Button>
+        <Button onClick={handleRegisterClick}>
           <Ambulance className="mr-2 h-4 w-4" />
           Register New Vehicle
         </Button>

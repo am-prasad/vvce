@@ -17,6 +17,7 @@ import TrafficSignalsPage from "./pages/TrafficSignalsPage";
 import RouteOptimizationPage from "./pages/RouteOptimizationPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import SettingsPage from "./pages/SettingsPage";
+import VehicleRegistrationForm from '@/components/ui/VehicleRegistrationForm';
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,8 @@ const App = () => (
           <Route element={<AppLayout />}>
             <Route path="/" element={<Dashboard />} />
             <Route path="/ambulances" element={<AmbulancesPage />} />
+            <Route path="/vehicle-registration" element={<VehicleRegistrationForm />} />
+            
             <Route path="/traffic-signals" element={<TrafficSignalsPage />} />
             <Route path="/route-optimization" element={<RouteOptimizationPage />} />
             <Route path="/analytics" element={<AnalyticsPage />} />
