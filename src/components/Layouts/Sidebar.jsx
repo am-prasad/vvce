@@ -39,7 +39,7 @@ export const Sidebar = () => {
     <SidebarContainer>
       <SidebarHeader className="p-4 flex items-center space-x-2">
         <Ambulance className="h-6 w-6 text-emergency" />
-        <span className="text-lg font-bold">AmbulanceAI</span>
+        <span className="text-lg font-bold">Smart Siren</span>
         <SidebarTrigger className="ml-auto md:hidden" />
       </SidebarHeader>
       
@@ -83,7 +83,7 @@ export const Sidebar = () => {
       </SidebarContent>
       
       <SidebarFooter className="p-4 text-xs text-muted-foreground">
-        <div>AmbulanceAI Priority System © 2025</div>
+        <div>Smart Siren © 2025</div>
       </SidebarFooter>
     </SidebarContainer>
   );
