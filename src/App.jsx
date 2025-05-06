@@ -9,7 +9,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NotFound from "./pages/NotFound";
-
+import NotificationPage from "@/components/ui/NotificationPage";
 
 import AppLayout from "./components/Layouts/AppLayout";
 import Dashboard from "./pages/Dashboard";
@@ -36,7 +36,7 @@ const App = () => (
             <Route path="/" element={<Dashboard />} />
             <Route path="/ambulances" element={<AmbulancesPage />} />
             <Route path="/vehicle-registration" element={<VehicleRegistrationForm />} />
-            
+            <Route path="/notifications" element={<NotificationPage />} />
             <Route path="/traffic-signals" element={<TrafficSignalsPage />} />
             <Route path="/signal-registration" element={<TrafficSignalRegistrationForm />} />
             
