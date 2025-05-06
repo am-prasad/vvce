@@ -98,9 +98,9 @@ const TriggeredEmergency = () => {
       {error && <p className="text-red-500 mb-4">{error}</p>}
       {success && <p className="text-green-600 mb-4">{success}</p>}
 
-      <div className="flex space-x-4">
+      <div className=" space-x-9">
         <button
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+          className="bg-blue-300 text-white px-12 py-2 rounded hover:bg-green-700"
           onClick={handleSubmit}
           disabled={!selectedAmbulance || !vehicleNumber || !requestId}
         >
@@ -108,7 +108,7 @@ const TriggeredEmergency = () => {
         </button>
 
         <button
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="bg-blue-300 text-white px-12 py-2 rounded hover:bg-green-700"
           onClick={handleCreateRoute}
         >
           Create Route

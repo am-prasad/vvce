@@ -30,7 +30,7 @@ export const MapView = () => {
             />
           </LoadScript>
 
-          {/* Overlay legend */}
+          {/* Overlay legend
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 mb-4 bg-white/90 rounded shadow p-4 text-xs grid grid-cols-3 gap-2 max-w-md w-full">
             <div className="flex items-center justify-center p-2 bg-signal-green/20 rounded">
               <span className="w-2 h-2 bg-signal-green rounded-full mr-1"></span>
@@ -48,7 +48,7 @@ export const MapView = () => {
               <span className="w-2 h-2 bg-emergency rounded-full mr-1"></span>
               <span>Active Emergency Routes</span>
             </div>
-          </div>
+          </div> */}
         </div>
       </CardContent>
     </Card>

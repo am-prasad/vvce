@@ -14,12 +14,13 @@ export const Navbar = () => {
   };
 
   return (
-    <div className="border-b">
-      <div className="flex h-16 items-center px-4">
+    <div className="border-b bg-white dark:bg-background sticky top-0 z-50">
+      <div className="flex flex-wrap items-center justify-between h-16 px-4 md:px-6">
+        {/* Sidebar toggle button (mobile only) */}
         <Button 
           variant="outline" 
           size="icon"
-          className="mr-4 md:hidden"
+          className="mr-2 md:hidden"
           onClick={() => setSidebarOpen(open => !open)}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
@@ -33,20 +34,22 @@ export const Navbar = () => {
           <span className="sr-only">Toggle sidebar</span>
         </Button>
 
-        <div className="relative w-full max-w-md">
+        {/* Search bar */}
+        <div className="relative flex-1 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
             type="search"
             placeholder="Search..."
-            className="w-full bg-background pl-8 md:w-[300px] lg:w-[400px]"
+            className="w-full bg-background pl-8"
           />
         </div>
 
-        <div className="ml-auto flex items-center space-x-2">
+        {/* Notification icon */}
+        <div className="ml-auto flex items-center space-x-2 mt-2 md:mt-0">
           <Button variant="outline" size="icon" className="relative" onClick={handleClick}>
             <Bell className="h-4 w-4" />
             <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-green-500 text-[10px] font-medium text-white flex items-center justify-center">
-            1
+              1
             </span>
           </Button>
         </div>
