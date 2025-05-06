@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink,useNavigate } from 'react-router-dom';
 import { 
   Sidebar as SidebarContainer, 
   SidebarContent, 
@@ -40,6 +40,11 @@ const menuItems = [
 ];
 
 export const Sidebar = () => {
+   const navigate = useNavigate();
+  
+    const handleClick = () => {
+      navigate("/trigger-emergency");
+    };
   return (
     <SidebarContainer>
       <SidebarHeader className="p-4 flex items-center space-x-2">
@@ -78,7 +83,7 @@ export const Sidebar = () => {
           <SidebarGroupLabel>Emergency Alerts</SidebarGroupLabel>
           <SidebarGroupContent>
             <div className="px-4 py-2">
-              <Button variant="destructive" className="w-full gap-2">
+              <Button variant="destructive" className="w-full gap-2" onClick={handleClick}>
                 <AlertCircle className="h-4 w-4" />
                 <span>Trigger Emergency</span>
               </Button>

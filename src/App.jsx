@@ -10,7 +10,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NotFound from "./pages/NotFound";
 import NotificationPage from "@/components/ui/NotificationPage";
-
+import TriggerEmergency from '@/components/ui/TriggeredEmergency';
 import AppLayout from "./components/Layouts/AppLayout";
 import Dashboard from "./pages/Dashboard";
 import AmbulancesPage from "./pages/AmbulancesPage";
@@ -39,7 +39,7 @@ const App = () => (
             <Route path="/notifications" element={<NotificationPage />} />
             <Route path="/traffic-signals" element={<TrafficSignalsPage />} />
             <Route path="/signal-registration" element={<TrafficSignalRegistrationForm />} />
-            
+            <Route path="/trigger-emergency" element={<TriggerEmergency />} />
             <Route path="/route-optimization" element={<RouteOptimizationPage />} />
             <Route path="/analytics" element={<AnalyticsPage />} />
             <Route path="/settings" element={<SettingsPage />} />
