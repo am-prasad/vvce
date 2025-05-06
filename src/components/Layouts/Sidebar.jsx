@@ -20,7 +20,12 @@ import {
   MapPin, 
   Settings, 
   TrafficCone, 
-  AlertCircle
+  AlertCircle,
+  Hospital,
+  HeartPulse,
+  Armchair,
+  Activity,
+  Haze
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -38,7 +43,7 @@ export const Sidebar = () => {
   return (
     <SidebarContainer>
       <SidebarHeader className="p-4 flex items-center space-x-2">
-        <Ambulance className="h-6 w-6 text-emergency" />
+        <Activity className="h-6 w-6 text-emergency" />
         <span className="text-lg font-bold">Smart Siren</span>
         <SidebarTrigger className="ml-auto md:hidden" />
       </SidebarHeader>

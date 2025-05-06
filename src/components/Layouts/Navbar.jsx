@@ -38,7 +38,7 @@ export const Navbar = () => {
           <Button variant="outline" size="icon" className="relative">
             <Bell className="h-4 w-4" />
             <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-emergency text-[10px] font-medium text-white flex items-center justify-center">
-              3
+            3
             </span>
           </Button>
         </div>
