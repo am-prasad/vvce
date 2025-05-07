@@ -4,11 +4,11 @@
 
 @layer base {
   :root {
-    --background: 264,39%,94%;
+    --background: 210, 25%, 98%;
     /* change here to modify bg-color */
     --foreground: 222.2 84% 4.9%;
 
-    --card: 0 0% 100%;
+    --card: 210, 91%, 93%;
     --card-foreground: 222.2 84% 4.9%;
 
     --popover: 0 0% 100%;

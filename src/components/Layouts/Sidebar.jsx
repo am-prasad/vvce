@@ -22,7 +22,8 @@ import {
   TrafficCone,
   AlertCircle,
   Activity,
-  Menu
+  Menu,
+  Siren
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -60,13 +61,15 @@ export const Sidebar = () => {
       )}
 
       <SidebarContainer
-        className={cn(
-          'fixed z-40 md:static md:translate-x-0 transform transition-transform duration-300 bg-white border-r dark:bg-background dark:border-muted w-64',
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        )}
+  className={cn(
+    'fixed z-40 md:static md:translate-x-0 transform transition-transform duration-300 bg-[hsl(130,70%,93%)] border-r dark:bg-background dark:border-muted w-64',
+    sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+  )}
+
+
       >
         <SidebarHeader className="p-4 flex items-center space-x-2">
-          <Activity className="h-6 w-6 text-emergency" />
+          <Siren className="h-6 w-6 text-emergency" />
           <span className="text-lg font-bold">Smart Siren</span>
 
           {/* Custom toggle button for mobile */}
