@@ -1,31 +1,39 @@
-
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Badge } from '@/components/ui/badge';
+import { useNavigate } from 'react-router-dom';
+import {
+  Card, CardContent, CardHeader, CardTitle,
+  Button, Input, Label, Tabs, TabsContent,
+  TabsList, TabsTrigger, Badge
+} from '../components/ui'; // ✅ fixed
 import { AlertCircle, Route, MapPin, Navigation, Clock } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '../hooks/use-toast'; // ✅ fixed
 
 const RouteOptimizationPage = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState('active');
   const [isCalculating, setIsCalculating] = useState(false);
-  
-  // Simulate route calculation
+  const [form, setForm] = useState({
+    vehicle: '',
+    origin: '',
+    destination: '',
+    priority: '',
+  });
+
   const handleCalculateRoute = () => {
+    const { origin, destination } = form;
+    if (!origin || !destination) {
+      toast({ title: 'Missing Fields', description: 'Please fill in both origin and destination.' });
+      return;
+    }
+
     setIsCalculating(true);
     setTimeout(() => {
       setIsCalculating(false);
-      toast({
-        title: "Route Optimized",
-        description: "Emergency route has been calculated and traffic signals are being updated.",
-      });
-    }, 1500);
+      navigate(`/emergency-route?origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(destination)}`);
+    }, 1000);
   };
-  
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -35,17 +43,18 @@ const RouteOptimizationPage = () => {
           <span>Emergency Override</span>
         </Button>
       </div>
-      
+
       <Tabs defaultValue="active" value={selectedTab} onValueChange={setSelectedTab} className="w-full">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="active">Active Routes</TabsTrigger>
           <TabsTrigger value="create">Create New Route</TabsTrigger>
           <TabsTrigger value="history">Route History</TabsTrigger>
         </TabsList>
-        
+
+        {/* Active Routes Tab */}
         <TabsContent value="active" className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            <RouteCard 
+            <RouteCard
               id="R-103"
               ambulanceId="#103"
               origin="Main St & 5th Ave"
@@ -55,7 +64,7 @@ const RouteOptimizationPage = () => {
               signalsOptimized={5}
               isEmergency={true}
             />
-            <RouteCard 
+            <RouteCard
               id="R-105"
               ambulanceId="#105"
               origin="Park Ave & 12th St"
@@ -65,7 +74,7 @@ const RouteOptimizationPage = () => {
               signalsOptimized={3}
               isEmergency={false}
             />
-            <RouteCard 
+            <RouteCard
               id="R-108"
               ambulanceId="#108"
               origin="West End & River Rd"
@@ -77,7 +86,8 @@ const RouteOptimizationPage = () => {
             />
           </div>
         </TabsContent>
-        
+
+        {/* Create New Route Tab */}
         <TabsContent value="create" className="space-y-4">
           <Card>
             <CardHeader>
@@ -87,11 +97,22 @@ const RouteOptimizationPage = () => {
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="vehicle">Ambulance ID</Label>
-                  <Input id="vehicle" placeholder="Select ambulance..." />
+                  <Input
+                    id="vehicle"
+                    placeholder="e.g. #103"
+                    value={form.vehicle}
+                    onChange={(e) => setForm({ ...form, vehicle: e.target.value })}
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="priority">Priority Level</Label>
-                  <select className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm">
+                  <select
+                    id="priority"
+                    value={form.priority}
+                    onChange={(e) => setForm({ ...form, priority: e.target.value })}
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  >
+                    <option value="">Select Priority</option>
                     <option>Emergency (Override All Signals)</option>
                     <option>High (Optimize Major Intersections)</option>
                     <option>Standard (Normal Routing)</option>
@@ -99,20 +120,35 @@ const RouteOptimizationPage = () => {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="origin">Starting Point</Label>
-                  <Input id="origin" placeholder="Current location or address" />
+                  <Input
+                    id="origin"
+                    placeholder="Current location or address"
+                    value={form.origin}
+                    onChange={(e) => setForm({ ...form, origin: e.target.value })}
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="destination">Destination</Label>
-                  <Input id="destination" placeholder="Hospital or emergency site" />
+                  <Input
+                    id="destination"
+                    placeholder="Hospital or emergency site"
+                    value={form.destination}
+                    onChange={(e) => setForm({ ...form, destination: e.target.value })}
+                  />
                 </div>
               </div>
-              <Button onClick={handleCalculateRoute} className="w-full mt-4" disabled={isCalculating}>
-                {isCalculating ? "Calculating optimal route..." : "Calculate Route"}
+              <Button
+                onClick={handleCalculateRoute}
+                className="w-full mt-4"
+                disabled={isCalculating}
+              >
+                {isCalculating ? 'Calculating optimal route...' : 'Calculate Route'}
               </Button>
             </CardContent>
           </Card>
         </TabsContent>
-        
+
+        {/* Route History Tab */}
         <TabsContent value="history" className="space-y-4">
           <Card>
             <CardHeader>
@@ -171,7 +207,7 @@ const RouteCard = ({ id, ambulanceId, origin, destination, eta, distance, signal
             </div>
           </div>
         </div>
-        
+
         <div className="grid grid-cols-2 gap-2 text-sm">
           <div>
             <p className="text-muted-foreground">ETA</p>
@@ -182,14 +218,14 @@ const RouteCard = ({ id, ambulanceId, origin, destination, eta, distance, signal
             <p className="font-medium">{distance}</p>
           </div>
         </div>
-        
+
         <div>
           <p className="text-sm text-muted-foreground">
             <Route className="h-3.5 w-3.5 inline mr-1" />
             {signalsOptimized} traffic signals optimized
           </p>
         </div>
-        
+
         <div className="flex gap-2">
           <Button variant="outline" size="sm" className="flex-1">View</Button>
           <Button variant="outline" size="sm" className="flex-1">Reroute</Button>

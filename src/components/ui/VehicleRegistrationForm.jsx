@@ -5,15 +5,17 @@ const VehicleRegistrationForm = () => {
   const [formData, setFormData] = useState({
     ambulanceId: '',
     driverName: '',
-    vehicleNumber: '' // Added vehicle number field
+    vehicleNumber: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState('');
+  const [generatedId, setGeneratedId] = useState('');
 
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => {
     setIsOpen(false);
     setMessage('');
+    setGeneratedId('');
   };
 
   const handleChange = (e) => {
@@ -24,10 +26,17 @@ const VehicleRegistrationForm = () => {
     }));
   };
 
+  const generateUniqueId = (vehicleNumber) => {
+    const date = new Date();
+    const formattedDate = date.toISOString().slice(2, 10).replace(/-/g, '');
+    const random = Math.floor(1000 + Math.random() * 9000);
+    const region = vehicleNumber.split('-')[0]?.toUpperCase() || 'XX'; // e.g., MH from MH-12-AB-1234
+    return `AMB-${region}-${formattedDate}-${random}`;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validation
     if (!formData.ambulanceId || !formData.driverName || !formData.vehicleNumber) {
       setMessage('Please fill in all fields');
       return;
@@ -35,18 +44,24 @@ const VehicleRegistrationForm = () => {
 
     try {
       setIsSubmitting(true);
+
+      const uniqueId = generateUniqueId(formData.vehicleNumber);
+      const dataToSend = {
+        ...formData,
+        uniqueId,
+      };
+
       const response = await fetch('/api/vehicles/register', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dataToSend),
       });
 
       const data = await response.json();
 
       if (response.ok) {
         setMessage('Vehicle registered successfully!');
+        setGeneratedId(uniqueId);
         setFormData({ ambulanceId: '', driverName: '', vehicleNumber: '' });
       } else {
         setMessage(`Registration failed: ${data.message || 'Unknown error'}`);
@@ -63,7 +78,7 @@ const VehicleRegistrationForm = () => {
     <div>
       <button 
         onClick={handleOpen}
-        className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded"
+        className="bg-green-300 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded"
       >
         Register New Vehicle
       </button>
@@ -83,6 +98,11 @@ const VehicleRegistrationForm = () => {
             {message && (
               <div className={`mb-4 p-3 rounded ${message.includes('success') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
                 {message}
+                {generatedId && (
+                  <div className="mt-2 text-sm">
+                    Unique Vehicle ID: <strong>{generatedId}</strong>
+                  </div>
+                )}
               </div>
             )}
 
@@ -98,7 +118,7 @@ const VehicleRegistrationForm = () => {
                   value={formData.ambulanceId}
                   onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Enter ambulance ID"
+                  placeholder="last 7 digits of engine number"
                 />
               </div>
 

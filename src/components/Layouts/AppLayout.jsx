@@ -7,7 +7,7 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 export const AppLayout = () => {
   return (
     <SidebarProvider>
-      <div className="flex flex-col md:flex-row min-h-screen w-full">
+      <div className="flex flex-col md:flex-row min-h-screen ">
         {/* Sidebar: hidden on small screens, visible on md+ */}
         <Sidebar />
 

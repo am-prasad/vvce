@@ -38,12 +38,33 @@ const AmbulancesPage = () => {
     return statusMatch && searchMatch;
   });
   
-  const handleDispatch = (id) => {
+  const handleDispatch = async (id) => {
     toast({
       title: `Ambulance ${id} dispatched`,
       description: "Emergency dispatch request has been sent."
     });
+  
+    // Example dispatch to Arduino — adjust lane/signal logic as needed
+    try {
+      await fetch('http://localhost:3001/dispatch', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          lane: 'L1',        // You could dynamically decide this based on ambulance info
+          signal: 'GREEN'    // Signal status to be set
+        }),
+      });
+      console.log(`Signal for ambulance ${id} dispatched to Arduino.`);
+    } catch (error) {
+      console.error(`Error dispatching ambulance ${id} to Arduino:`, error);
+      toast({
+        title: "Dispatch Failed",
+        description: `Could not communicate with the signal system for ambulance ${id}.`,
+        variant: "destructive",
+      });
+    }
   };
+  
   
   return (
     <div className="space-y-6">
@@ -301,7 +322,7 @@ const AmbulanceCard = ({ ambulance, onDispatch }) => {
         <div className="flex gap-2">
           <Button variant="outline" size="sm" className="flex-1">Details</Button>
           {ambulance.status !== 'emergency' && (
-            <Button size="sm" className="flex-1" onClick={() => onDispatch(ambulance.id)}>Dispatch</Button>
+            <Button size="sm" className="flex-1" onClick={() => handleDispatch(ambulance.id)}>Dispatch</Button>
           )}
         </div>
       </CardContent>
@@ -341,76 +362,76 @@ const getStatusBadge = (status) => {
 const ambulances = [
   {
     id: '103',
-    status: 'emergency',
+    status: 'active',
     location: 'Main St & 5th Ave',
     destination: 'Memorial Hospital',
     driver: 'John Doe',
     eta: '6 mins',
     type: 'Type III',
   },
-  {
-    id: '105',
-    status: 'active',
-    location: 'Park Ave & 12th St',
-    destination: 'Central Medical Center',
-    driver: 'Emma Williams',
-    eta: '12 mins',
-    type: 'Type II',
-  },
-  {
-    id: '108',
-    status: 'active',
-    location: 'West End & River Rd',
-    destination: 'County General Hospital',
-    driver: 'Michael Johnson',
-    eta: '9 mins',
-    type: 'Type III',
-  },
-  {
-    id: '112',
-    status: 'idle',
-    location: 'Emergency Base Station',
-    destination: null,
-    driver: 'Sarah Brown',
-    eta: null,
-    type: 'Type I',
-  },
-  {
-    id: '115',
-    status: 'idle',
-    location: 'Central Fire Station',
-    destination: null,
-    driver: 'Robert Wilson',
-    eta: null,
-    type: 'Type II',
-  },
-  {
-    id: '118',
-    status: 'idle',
-    location: 'North Base Station',
-    destination: null,
-    driver: 'Jennifer Davis',
-    eta: null,
-    type: 'Type III',
-  },
-  {
-    id: '121',
-    status: 'active',
-    location: 'Highland Park',
-    destination: 'St. Joseph Medical Center',
-    driver: 'David Miller',
-    eta: '15 mins',
-    type: 'Type I',
-  },
-  {
-    id: '124',
-    status: 'emergency',
-    location: 'Downtown District',
-    destination: 'Memorial Hospital',
-    driver: 'Lisa Anderson',
-    eta: '3 mins',
-    type: 'Type III',
-  },
+  // {
+  //   id: '105',
+  //   status: 'active',
+  //   location: 'Park Ave & 12th St',
+  //   destination: 'Central Medical Center',
+  //   driver: 'Emma Williams',
+  //   eta: '12 mins',
+  //   type: 'Type II',
+  // },
+  // {
+  //   id: '108',
+  //   status: 'active',
+  //   location: 'West End & River Rd',
+  //   destination: 'County General Hospital',
+  //   driver: 'Michael Johnson',
+  //   eta: '9 mins',
+  //   type: 'Type III',
+  // },
+  // {
+  //   id: '112',
+  //   status: 'idle',
+  //   location: 'Emergency Base Station',
+  //   destination: null,
+  //   driver: 'Sarah Brown',
+  //   eta: null,
+  //   type: 'Type I',
+  // },
+  // {
+  //   id: '115',
+  //   status: 'idle',
+  //   location: 'Central Fire Station',
+  //   destination: null,
+  //   driver: 'Robert Wilson',
+  //   eta: null,
+  //   type: 'Type II',
+  // },
+  // {
+  //   id: '118',
+  //   status: 'idle',
+  //   location: 'North Base Station',
+  //   destination: null,
+  //   driver: 'Jennifer Davis',
+  //   eta: null,
+  //   type: 'Type III',
+  // },
+  // {
+  //   id: '121',
+  //   status: 'active',
+  //   location: 'Highland Park',
+  //   destination: 'St. Joseph Medical Center',
+  //   driver: 'David Miller',
+  //   eta: '15 mins',
+  //   type: 'Type I',
+  // },
+  // {
+  //   id: '124',
+  //   status: 'emergency',
+  //   location: 'Downtown District',
+  //   destination: 'Memorial Hospital',
+  //   driver: 'Lisa Anderson',
+  //   eta: '3 mins',
+  //   type: 'Type III',
+  // },
 ];
 
 export default AmbulancesPage;

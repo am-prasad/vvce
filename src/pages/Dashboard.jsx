@@ -1,6 +1,7 @@
 import React from 'react';
 import { DashboardStats } from '@/components/dashboard/DashboardStats';
-import { MapView } from '@/components/dashboard/MapView';
+import MapView from '@/components/dashboard/Mapview';
+
 import { ActiveAmbulances } from '@/components/dashboard/ActiveAmbulances';
 import { TrafficSignalsList } from '@/components/dashboard/TrafficSignals';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';

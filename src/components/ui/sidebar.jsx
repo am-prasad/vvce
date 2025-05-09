@@ -94,7 +94,7 @@ function SidebarFooter({ className, children, ...props }) {
 
 function SidebarGroup({ className, children, ...props }) {
   return (
-    <div className={cn("px-2 py-4 md:px-0 md:px-0 md:py-2", className)} {...props}>
+    <div className={cn("px-2 py-4 md:px-0  md:py-2", className)} {...props}>
       {children}
     </div>
   )

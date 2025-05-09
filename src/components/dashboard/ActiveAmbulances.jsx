@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Clock, MapPin, Navigation } from 'lucide-react';
@@ -17,52 +18,36 @@ const getStatusBadge = (status) => {
 };
 
 export const ActiveAmbulances = () => {
-  // This would come from an API in a real application
-  const ambulances = [
-    {
-      id: '#103',
-      status: 'emergency',
-      location: 'Main St & 5th Ave',
-      destination: 'Memorial Hospital',
-      eta: '6 mins',
-      optimizedSignals: 5,
-    },
-    {
-      id: '#105',
-      status: 'active',
-      location: 'Park Ave & 12th St',
-      destination: 'Central Medical Center',
-      eta: '12 mins',
-      optimizedSignals: 3,
-    },
-    {
-      id: '#108',
-      status: 'active',
-      location: 'West End & River Rd',
-      destination: 'County General Hospital',
-      eta: '9 mins',
-      optimizedSignals: 4,
-    },
-    {
-      id: '#112',
-      status: 'idle',
-      location: 'Emergency Base Station',
-      destination: null,
-      eta: null,
-      optimizedSignals: 0,
-    },
-  ];
+  const [ambulances, setAmbulances] = useState([]);
+
+  useEffect(() => {
+    const fetchActiveAmbulances = async () => {
+      try {
+        const response = await axios.get('/api/active-ambulances');
+        const data = Array.isArray(response.data) ? response.data : [];
+        setAmbulances(data);
+      } catch (error) {
+        console.error('Failed to fetch active ambulances', error);
+        setAmbulances([]);
+      }
+    };
+
+    fetchActiveAmbulances();
+  }, []);
 
   return (
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-lg font-medium">Active Ambulances</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {ambulances.map((ambulance) => (
-              <div 
-                key={ambulance.id} 
+    <Card>
+      <CardHeader className="pb-2">
+        <CardTitle className="text-lg font-medium">Active Ambulances</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          {ambulances.length === 0 ? (
+            <p className="text-muted-foreground text-sm">No active ambulances at the moment.</p>
+          ) : (
+            ambulances.map((ambulance) => (
+              <div
+                key={ambulance.id}
                 className={`flex items-center justify-between border-b pb-4 last:border-0 last:pb-0 ${
                   ambulance.status === 'emergency' ? 'bg-emergency/5 -mx-6 px-6' : ''
                 }`}
@@ -74,7 +59,7 @@ export const ActiveAmbulances = () => {
                   </div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <MapPin className="h-3.5 w-3.5" />
-                    <span>{ambulance.location}</span>
+                    <span>{ambulance.location || 'Unknown location'}</span>
                   </div>
                   {ambulance.destination && (
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -97,9 +82,10 @@ export const ActiveAmbulances = () => {
                   )}
                 </div>
               </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+            ))
+          )}
+        </div>
+      </CardContent>
+    </Card>
   );
 };

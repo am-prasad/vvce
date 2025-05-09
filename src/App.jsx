@@ -6,7 +6,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner"; // optional, remove 
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import EmergencyRouteMap from '@/components/ui/EmergencyRouteMap';
 // Import the provider
 import { SidebarProvider } from '@/components/ui/sidebar-context';
 
@@ -22,6 +22,8 @@ import AnalyticsPage from "./pages/AnalyticsPage";
 import SettingsPage from "./pages/SettingsPage";
 import VehicleRegistrationForm from '@/components/ui/VehicleRegistrationForm';
 import TrafficSignalRegistrationForm from '@/components/ui/TrafficSignalRegistrationForm';
+import SignalsList from '@/components/ui/SignalsList';
+import TrafficSignalControls from '@/components/ui/TrafficSignalControls';
 
 const queryClient = new QueryClient();
 
@@ -44,6 +46,9 @@ const App = () => (
               <Route path="/trigger-emergency" element={<TriggerEmergency />} />
               <Route path="/route-optimization" element={<RouteOptimizationPage />} />
               <Route path="/analytics" element={<AnalyticsPage />} />
+              <Route path="signals-list" element={<SignalsList />} />
+              <Route path="traffic-controls" element={<TrafficSignalControls />} />
+              <Route path="/emergency-route" element={<EmergencyRouteMap />} />
               <Route path="/settings" element={<SettingsPage />} />
             </Route>
             <Route path="*" element={<NotFound />} />
