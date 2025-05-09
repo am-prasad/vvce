@@ -5,16 +5,14 @@ import axios from 'axios';
 const TriggeredEmergency = () => {
   const [engineNumber, setEngineNumber] = useState('');
   const [vehicleNumber, setVehicleNumber] = useState('');
-  const [verified, setVerified] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
-  const handleVerify = async () => {
+  const handleSubmit = async () => {
     try {
       setError('');
       setSuccess('');
-      setVerified(false);
 
       const response = await axios.post('/api/verify-engine-vehicle', {
         engineNumber,
@@ -22,31 +20,18 @@ const TriggeredEmergency = () => {
       });
 
       if (response.data.valid) {
-        setVerified(true);
-        setSuccess('Verification successful. You may now submit.');
+        await axios.post('/api/active-ambulances', {
+          engineNumber,
+          vehicleNumber,
+          timestamp: new Date().toISOString(),
+        });
+
+        setSuccess('Ambulance successfully marked active.');
+        setEngineNumber('');
+        setVehicleNumber('');
       } else {
-        setError('Engine number and vehicle number do not match.');
+        alert('Wrong user has entered the data.');
       }
-    } catch (err) {
-      setError('Server error during verification.');
-    }
-  };
-
-  const handleSubmit = async () => {
-    try {
-      setError('');
-      setSuccess('');
-
-      await axios.post('/api/active-ambulances', {
-        engineNumber,
-        vehicleNumber,
-        timestamp: new Date().toISOString(),
-      });
-
-      setSuccess('Ambulance successfully marked active.');
-      setVerified(false);
-      setEngineNumber('');
-      setVehicleNumber('');
     } catch (err) {
       setError('Failed to activate ambulance.');
     }
@@ -57,10 +42,11 @@ const TriggeredEmergency = () => {
       <h2 className="text-2xl font-bold mb-4">Trigger Emergency Response</h2>
 
       <div className="mb-4">
-        <label className="block mb-1 font-medium">Enter Engine Number (7 digits)</label>
+        <label className="block mb-1 font-medium">Engine Number</label>
         <input
           type="text"
           className="w-full border rounded p-2"
+          placeholder="Enter last 7 digits of Engine number"
           value={engineNumber}
           maxLength={7}
           onChange={(e) => setEngineNumber(e.target.value)}
@@ -68,10 +54,11 @@ const TriggeredEmergency = () => {
       </div>
 
       <div className="mb-4">
-        <label className="block mb-1 font-medium">Enter Vehicle Number</label>
+        <label className="block mb-1 font-medium">Vehicle Number</label>
         <input
           type="text"
           className="w-full border rounded p-2"
+          placeholder="Enter Vehicle Number"
           value={vehicleNumber}
           onChange={(e) => setVehicleNumber(e.target.value)}
         />
@@ -82,24 +69,29 @@ const TriggeredEmergency = () => {
 
       <div className="space-x-4">
         <button
-          className="bg-yellow-400 text-white px-6 py-2 rounded hover:bg-yellow-500"
-          onClick={handleVerify}
-          disabled={!engineNumber || !vehicleNumber}
-        >
-          Verify
-        </button>
-
-        <button
-          className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600"
+          className={`px-6 py-2 rounded text-white ${
+            engineNumber && vehicleNumber
+              ? 'bg-blue-500 hover:bg-blue-600 cursor-pointer'
+              : 'bg-blue-300 cursor-not-allowed'
+          }`}
           onClick={handleSubmit}
-          disabled={!verified}
+          disabled={!engineNumber || !vehicleNumber}
         >
           Submit
         </button>
 
         <button
-          className="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600"
-          onClick={() => navigate('/route-optimization')}
+          className={`px-6 py-2 rounded text-white ${
+            engineNumber && vehicleNumber
+              ? 'bg-green-500 hover:bg-green-600 cursor-pointer'
+              : 'bg-green-300 cursor-not-allowed'
+          }`}
+          onClick={() =>
+            navigate('/route-optimization', {
+              state: { engineNumber, vehicleNumber },
+            })
+          }
+          disabled={!engineNumber || !vehicleNumber}
         >
           Create Route
         </button>
