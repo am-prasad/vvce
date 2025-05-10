@@ -37,7 +37,7 @@ const EmergencyRouteMap = () => {
   }, []);
 
   return (
-    <LoadScript googleMapsApiKey="AIzaSyARQhwLdUBlA9_n6QDPpq5gRHGNvgYgmIA">
+    <LoadScript googleMapsApiKey="Your_Maps_API_key">
       <GoogleMap
         mapContainerStyle={{ height: '400px', width: '100%' }}
         center={center}
