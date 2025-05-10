@@ -22,7 +22,7 @@ const Mapview = () => {
       <CardContent className="p-0">
         <div className="map-container aspect-[16/9] relative">
           {/* Google Maps Integration */}
-          <LoadScript googleMapsApiKey="AIzaSyARQhwLdUBlA9_n6QDPpq5gRHGNvgYgmIA">
+          <LoadScript googleMapsApiKey="Your_Maps_API_key">
             <GoogleMap
               mapContainerStyle={mapContainerStyle}
               center={center}
